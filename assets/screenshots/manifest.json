@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "locale": "en_US",
+  "windowPoints": [
+    1200,
+    900
+  ],
+  "images": [
+    {
+      "file": "cleanup-review-dark.png",
+      "width": 2400,
+      "height": 1800,
+      "bytes": 383948,
+      "originalBytes": 2851270,
+      "sha256": "904859b5cd2ad913cec718c9321f1d5210d93cbf6c8b17cb378d8dedbe39f030"
+    },
+    {
+      "file": "cleanup-review-light.png",
+      "width": 2400,
+      "height": 1800,
+      "bytes": 486681,
+      "originalBytes": 2998883,
+      "sha256": "0e57dd93fc5c45615fb278d2a00140d68e0619f741cffe231903f57f7d7a29f3"
+    },
+    {
+      "file": "derived-data-dark.png",
+      "width": 2400,
+      "height": 1800,
+      "bytes": 114241,
+      "originalBytes": 571432,
+      "sha256": "936a7c781fe505ca0c38d079679913cc24383c4389ed0ff37a9c3fc193c59e01"
+    },
+    {
+      "file": "derived-data-light.png",
+      "width": 2400,
+      "height": 1800,
+      "bytes": 129890,
+      "originalBytes": 583834,
+      "sha256": "48bc6ce42a954fcc3d9ef1a28952d0fbd616c58e517466c3ae42b6d90a2998cf"
+    },
+    {
+      "file": "docker-dark.png",
+      "width": 2400,
+      "height": 1800,
+      "bytes": 111162,
+      "originalBytes": 560875,
+      "sha256": "d32843a6e1abb904f0b2cf271e22556be31321d580b18cb4f30d092a8b256e97"
+    },
+    {
+      "file": "docker-light.png",
+      "width": 2400,
+      "height": 1800,
+      "bytes": 126300,
+      "originalBytes": 567022,
+      "sha256": "94a9891791b63d02e22dd0d58ecd65df1ed50ab24f8997fe74a54420371813f9"
+    },
+    {
+      "file": "onboarding-dark.png",
+      "width": 2400,
+      "height": 1800,
+      "bytes": 276499,
+      "originalBytes": 1984757,
+      "sha256": "1723ee33532c00b649c29e5be1c6bbefc1309d268d4782032278fc20654274d8"
+    },
+    {
+      "file": "onboarding-light.png",
+      "width": 2400,
+      "height": 1800,
+      "bytes": 380503,
+      "originalBytes": 2227016,
+      "sha256": "9671a29f65e015486e1cf33ca88fb300a755dd782d534fb47024eee267fc46ba"
+    }
+  ]
+}
