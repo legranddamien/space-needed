@@ -11,6 +11,8 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 SITE = 'https://legranddamien.github.io/space-needed/'
 BASE = '/space-needed/'
+# Keep public downloads current when GitHub's latest release changes.
+LATEST_DOWNLOAD = 'https://github.com/legranddamien/space-needed/releases/latest/download/SpaceNeeded.dmg'
 LOCALES = {'en': 'English', 'fr-FR': 'Français', 'de': 'Deutsch', 'es': 'Español', 'it': 'Italiano', 'ja': '日本語', 'ko': '한국어', 'pt-BR': 'Português (Brasil)', 'zh-Hans': '简体中文'}
 OG_LOCALES = dict(zip(LOCALES, ['en_US', 'fr_FR', 'de_DE', 'es_ES', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN']))
 SCENES = ['onboarding', 'derived-data', 'docker', 'cleanup-review']
@@ -77,7 +79,7 @@ def render(locale, copy, release, template):
     url = SITE + locale_path(locale)
     def download(compact=False):
         if release:
-            return f'<a class="button {"compact" if compact else ""}" href="{release[2]}" data-download><span>{e(copy["nav"][2] if compact else copy["download"])}</span><span aria-hidden="true">↓</span></a>'
+            return f'<a class="button {"compact" if compact else ""}" href="{LATEST_DOWNLOAD}" data-download><span>{e(copy["nav"][2] if compact else copy["download"])}</span><span aria-hidden="true">↓</span></a>'
         if compact:
             return f'<a class="header-download" href="#download">{e(copy["soon"])} <span aria-hidden="true">↗</span></a>'
         return f'<button class="button unavailable" type="button" disabled><span>{e(copy["soon"])}</span><span aria-hidden="true">↓</span></button>'
@@ -86,7 +88,7 @@ def render(locale, copy, release, template):
     hreflang = ''.join(f'<link rel="alternate" hreflang="{key}" href="{SITE}{locale_path(key)}">' for key in LOCALES)
     schema = {'@context': 'https://schema.org', '@type': 'SoftwareApplication', 'name': 'SpaceNeeded', 'applicationCategory': 'UtilitiesApplication', 'operatingSystem': 'macOS 27+', 'description': copy['description'], 'url': url, 'image': SITE + 'assets/brand/social.png', 'inLanguage': list(LOCALES)}
     if release:
-        schema.update(softwareVersion=release[1], downloadUrl=release[2])
+        schema.update(softwareVersion=release[1], downloadUrl=LATEST_DOWNLOAD)
     sections = []
     # DerivedData anchors the hero; the other three scenes continue the story below.
     for index in [0, 2, 3]:

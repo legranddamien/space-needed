@@ -74,6 +74,9 @@ with tempfile.TemporaryDirectory(prefix='spaceneeded-site-check-') as temporary:
     for locale in b.LOCALES:
         text = (root / 'released' / b.locale_path(locale) / 'index.html').read_text()
         assert text.count('data-download') == 3
+        downloads = [attrs['href'] for tag, attrs in Document(text).tags if tag == 'a' and 'data-download' in attrs]
+        assert downloads == ['https://github.com/legranddamien/space-needed/releases/latest/download/SpaceNeeded.dmg'] * 3
+        assert '"downloadUrl": "https://github.com/legranddamien/space-needed/releases/latest/download/SpaceNeeded.dmg"' in text
         assert '"softwareVersion": "1.2.3"' in text
         assert 'disabled' not in text
     feed.write_text(feed.read_text().replace('https://github.com/legranddamien/', 'https://example.com/'))
