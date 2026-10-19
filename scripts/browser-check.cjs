@@ -37,7 +37,7 @@ const locales=['','fr-FR/','de/','es/','it/','ja/','ko/','pt-BR/','zh-Hans/'];
  await page.locator('.language summary').click();await page.keyboard.press('Escape');assert.equal(await page.locator('.language').getAttribute('open'),null);
  const published=/<item(?:\s|>)/.test(fs.readFileSync(path.resolve(__dirname,'../appcast.xml'),'utf8'));
  assert.equal(await page.locator('[data-download]').count(),published?3:0);assert.equal(await page.locator('button:disabled').count(),published?0:2);
- const nojs=await browser.newContext({javaScriptEnabled:false});const fallback=await nojs.newPage();await fallback.goto(base+'ja/');assert.equal(await fallback.locator('.showcase').count(),3);assert.equal(await fallback.locator('[data-source]').count(),21);
+ const nojs=await browser.newContext({javaScriptEnabled:false});const fallback=await nojs.newPage();await fallback.goto(base+'ja/');assert.equal(await fallback.locator('.showcase').count(),3);assert.equal(await fallback.locator('[data-source]').count(),24);
  fs.writeFileSync(path.join(output,'results.json'),JSON.stringify({results,errors},null,2));
  console.log(JSON.stringify({pages:72,axeChecks:results.length,violations:results.filter(r=>r.violations.length).map(r=>({locale:r.locale,width:r.width,mode:r.mode,ids:r.violations.map(v=>v.id)})),errors},null,2));
  assert.equal(results.filter(r=>r.violations.length).length,0,'Accessibility violations; inspect .qa/results.json');assert.equal(errors.length,0);

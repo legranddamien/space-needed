@@ -35,7 +35,7 @@ def rejects(action):
 
 content = json.loads((b.ROOT / 'src/content.json').read_text())
 b.validate_content(content)
-assert len(set(b.SOURCE_IDS)) == 18
+assert len(set(b.SOURCE_IDS)) == 22
 broken = json.loads(json.dumps(content))
 broken['ja'].pop('risk')
 rejects(lambda: b.validate_content(broken))
@@ -77,8 +77,17 @@ with tempfile.TemporaryDirectory(prefix='spaceneeded-site-check-') as temporary:
         downloads = [attrs['href'] for tag, attrs in Document(text).tags if tag == 'a' and 'data-download' in attrs]
         assert downloads == ['https://github.com/legranddamien/space-needed/releases/latest/download/SpaceNeeded.dmg'] * 3
         assert '"downloadUrl": "https://github.com/legranddamien/space-needed/releases/latest/download/SpaceNeeded.dmg"' in text
-        assert '"softwareVersion": "1.2.3"' in text
+        assert 'softwareVersion' not in text
+        assert '1.2.3' not in text
+        assert 'Apple Music' not in text
+        assert 'Apple-Music' not in text
+        assert {'applications.installed', 'android.virtualDevices', 'go.buildCache', 'go.moduleCache'} <= {a['data-source'] for _, a in Document(text).tags if 'data-source' in a}
         assert 'disabled' not in text
+    # Published pages stay identical when only the release version/build changes.
+    feed.write_text(feed.read_text().replace('1.2.3', '2.0.0').replace('>42<', '>43<'))
+    b.build(root / 'next-release', feed)
+    for name in b.GENERATED:
+        assert (root / 'released' / name).read_bytes() == (root / 'next-release' / name).read_bytes(), name
     feed.write_text(feed.read_text().replace('https://github.com/legranddamien/', 'https://example.com/'))
     rejects(lambda: b.build(root / 'invalid', feed))
     assert not (root / 'invalid').exists()
@@ -88,4 +97,4 @@ with tempfile.TemporaryDirectory(prefix='spaceneeded-site-check-') as temporary:
     b.build(root / 'current', b.ROOT / 'appcast.xml')
     for name in b.GENERATED:
         assert (root / 'current' / name).read_bytes() == (b.ROOT / name).read_bytes(), f'Stale generated page: {name}'
-print('Passed: 9 locales, 18 source IDs, links/assets, SEO, empty/released feeds, invalid feeds and deterministic generated output.')
+print('Passed: 9 locales, 22 source IDs, version-independent pages, links/assets, SEO, empty/released feeds, invalid feeds and deterministic generated output.')

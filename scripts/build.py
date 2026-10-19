@@ -16,8 +16,8 @@ LATEST_DOWNLOAD = 'https://github.com/legranddamien/space-needed/releases/latest
 LOCALES = {'en': 'English', 'fr-FR': 'Français', 'de': 'Deutsch', 'es': 'Español', 'it': 'Italiano', 'ja': '日本語', 'ko': '한국어', 'pt-BR': 'Português (Brasil)', 'zh-Hans': '简体中文'}
 OG_LOCALES = dict(zip(LOCALES, ['en_US', 'fr_FR', 'de_DE', 'es_ES', 'it_IT', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN']))
 SCENES = ['onboarding', 'derived-data', 'docker', 'cleanup-review']
-GROUPS = [(0, 7), (7, 9), (9, 13), (13, 16), (16, 18), (18, 21)]
-SOURCE_IDS = ['xcode.derivedData', 'xcode.archives', 'xcode.deviceSupport', 'xcode.documentation', 'xcode.logs', 'simulators.devices', 'simulators.runtimes', 'developer.buildFolders', 'caches.packages', 'android.gradleCaches', 'android.gradleDistributions', 'android.projectBuilds', 'android.studioLogs', 'containers.docker', 'containers.docker', 'containers.tart', 'tools.cleanup', 'tools.cleanup', 'system.temp', 'caches.packages', 'system.localizations']
+GROUPS = [(0, 7), (7, 11), (11, 16), (16, 19), (19, 21), (21, 24)]
+SOURCE_IDS = ['xcode.derivedData', 'xcode.archives', 'xcode.deviceSupport', 'xcode.documentation', 'xcode.logs', 'simulators.devices', 'simulators.runtimes', 'developer.buildFolders', 'caches.packages', 'go.buildCache', 'go.moduleCache', 'android.gradleCaches', 'android.gradleDistributions', 'android.projectBuilds', 'android.studioLogs', 'android.virtualDevices', 'containers.docker', 'containers.docker', 'containers.tart', 'tools.cleanup', 'tools.cleanup', 'system.temp', 'applications.installed', 'system.localizations']
 SPARKLE = '{http://www.andymatuschak.org/xml-namespaces/sparkle}'
 GENERATED = ['index.html'] + [f'{locale}/index.html' for locale in LOCALES if locale != 'en'] + ['sitemap.xml', '404.html']
 
@@ -88,7 +88,7 @@ def render(locale, copy, release, template):
     hreflang = ''.join(f'<link rel="alternate" hreflang="{key}" href="{SITE}{locale_path(key)}">' for key in LOCALES)
     schema = {'@context': 'https://schema.org', '@type': 'SoftwareApplication', 'name': 'SpaceNeeded', 'applicationCategory': 'UtilitiesApplication', 'operatingSystem': 'macOS 27+', 'description': copy['description'], 'url': url, 'image': SITE + 'assets/brand/social.png', 'inLanguage': list(LOCALES)}
     if release:
-        schema.update(softwareVersion=release[1], downloadUrl=LATEST_DOWNLOAD)
+        schema.update(downloadUrl=LATEST_DOWNLOAD)
     sections = []
     # DerivedData anchors the hero; the other three scenes continue the story below.
     for index in [0, 2, 3]:
@@ -99,7 +99,7 @@ def render(locale, copy, release, template):
     for group, (start, end) in enumerate(GROUPS):
         items = ''.join(f'<li data-source="{SOURCE_IDS[index]}">{e(copy["sources"][index])}</li>' for index in range(start, end))
         groups.append(f'<article class="source-group"><span class="source-mark" aria-hidden="true">{["⌘", "{ }", "[ ]", "◇", ">_", "⊞"][group]}</span><h3>{e(copy["groups"][group])}</h3><ul>{items}</ul><p class="source-note">{e(copy["sourceNotes"][group])}</p></article>')
-    availability = e(copy['unavailable']) if not release else f'{e(copy["version"])} {release[1]}'
+    availability = f'<p class="availability">{e(copy["unavailable"])}</p>' if not release else ''
     values = {key: e(value) for key, value in copy.items() if isinstance(value, str)}
     values.update(locale=locale, base=BASE, canonical=url, hreflang=hreflang, schema=json.dumps(schema, ensure_ascii=False).replace('<', '\\u003c'), icon=icon(34), heroIcon=icon(104), closeIcon=icon(64), headlineFirst=e(copy['headline'][0]), headlineSecond=e(copy['headline'][1]), navApp=e(copy['nav'][0]), navSources=e(copy['nav'][1]), navDownload=e(copy['nav'][2]), themeOptions=theme_options, languages=languages, currentLanguage=e(LOCALES[locale]), headerDownload=download(True), downloadButton=download(), availability=availability, heroPicture=picture('derived-data', copy['shots'][1][2], True), heroCaption=e(copy['shots'][1][0]), heroDetail=e(copy['shots'][1][1]), showcases=''.join(sections), sourceGroups=''.join(groups), closingHeadline='<br>'.join(e(copy['closingTitle']).split('\n')), ogLocale=OG_LOCALES[locale])
     return string.Template(template).substitute(values)
