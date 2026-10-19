@@ -6,6 +6,27 @@
         <description>Stable releases of Space Needed for macOS.</description>
         <language>en</language>
         <item>
+            <title>1.1.0</title>
+            <pubDate>Mon, 19 Oct 2026 23:24:32 +0200</pubDate>
+            <link>https://legranddamien.github.io/space-needed/</link>
+            <sparkle:version>3</sparkle:version>
+            <sparkle:shortVersionString>1.1.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>27.0</sparkle:minimumSystemVersion>
+            <description sparkle:format="markdown"><![CDATA[A little less clutter, a little more breathing room!
+
+This update brings new cleanup sources to help you reclaim even more space:
+
+- **Applications:** remove apps you no longer need.
+- **Android virtual devices:** clear out unused virtual devices.
+- **Go caches:** free up space left behind by your Go projects.
+
+You can now choose what SpaceNeeded scans, browse results as they arrive, and find items more easily with tidier groups and improved search.
+
+We’ve also polished the interface, made cleanup progress clearer, and fixed a few bumps along the way for a smoother experience.
+]]></description>
+            <enclosure url="https://github.com/legranddamien/space-needed/releases/download/v1.1.0/SpaceNeeded.dmg" length="7113961" type="application/octet-stream" sparkle:edSignature="bO89Q99EXbj6SQth6YVVvtoKbaKrqkWZa+ngx42G0iexIefFXHtn6GKZ5doexqV0g0K1v+qlRUR2BcoCKak0Cg=="/>
+        </item>
+        <item>
             <title>1.0.0</title>
             <pubDate>Sun, 18 Oct 2026 11:55:04 +0200</pubDate>
             <link>https://legranddamien.github.io/space-needed/</link>
